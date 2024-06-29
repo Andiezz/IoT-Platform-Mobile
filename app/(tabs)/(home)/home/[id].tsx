@@ -68,7 +68,7 @@ const Overview = () => {
               (item) => (
                 <View style={styles.resultWrapper} key={item.name}>
                   <Text style={{ flex: 2 }}>{item.name}</Text>
-                  <Text style={{ flex: 1 }}>{item.value.toFixed(2)}</Text>
+                  <Text style={{ flex: 1 }}>{item?.iaqiValue?.toFixed(2)}</Text>
                   <View
                     style={{
                       display: "flex",
@@ -102,7 +102,7 @@ const Overview = () => {
               (item) => (
                 <View style={styles.resultWrapper} key={item.name}>
                   <Text style={{ flex: 2 }}>{item.name}</Text>
-                  <Text style={{ flex: 1 }}>{item.value.toFixed(2)}</Text>
+                  <Text style={{ flex: 1 }}>{item?.iaqiValue?.toFixed(2)}</Text>
                   <View
                     style={{
                       display: "flex",

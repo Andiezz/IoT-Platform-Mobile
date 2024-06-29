@@ -166,11 +166,11 @@ const TabLayout = () => {
 
   useEffect(() => {
     if (message) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Warning',
-        textBody: 'Parameters in warning threshold',
-      });
+      // Toast.show({
+      //   type: ALERT_TYPE.WARNING,
+      //   title: 'Warning',
+      //   textBody: 'Parameters in warning threshold',
+      // });
       sendPushNotification(
         expoPushToken,
         'Warning',

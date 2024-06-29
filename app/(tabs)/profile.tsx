@@ -1,24 +1,9 @@
-import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  View,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-} from 'react-native';
-
-import { icons } from '../../constants';
-import { EmptyState, InfoBox, VideoCard } from '../../components';
-import { useSelector } from 'react-redux';
-import { dispatch, RootState } from '@/store/store';
-import { logoutAC } from '@/store/slices/auth';
+import { View, StyleSheet, Text } from 'react-native';
 import { UserResponseModel } from '@/api/types';
 import { colors, textStyles } from '@/assets/styles';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getUserInfoAPI } from '@/api/api';
-import { useFocusEffect } from '@react-navigation/native';
 import { Avatar } from 'react-native-paper';
 
 const Profile = () => {

@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
-import { Link, router } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 import {
   View,
   Text,
-  ScrollView,
-  Dimensions,
-  Alert,
   Image,
   TouchableOpacity,
 } from 'react-native';
 import { images } from '../../constants';
-// import { useGlobalContext } from "../../context/GlobalProvider";
-import { colors } from '@/assets/styles';
 import AuthLayout from '@/layouts/AuthLayout';
 import ScreenContainer from '@/layouts/ScreenContainer';
 import AppText from '@/components/AppText';
@@ -23,11 +17,8 @@ import Input from '@/components/Input';
 import { forgotPasswordAPI, loginAPI } from '@/api/api';
 import { dispatch } from '@/store/store';
 import { loginAC } from '@/store/slices/auth';
-import logo from '@/assets/images/logo2.png';
-import { StackNavigationProp } from '@react-navigation/stack';
 
 const SignIn = () => {
-  // const { setUser, setIsLogged } = useGlobalContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
@@ -37,7 +28,7 @@ const SignIn = () => {
     try {
       setErrorMessage('');
       setIsSubmitting(true);
-      const res = await forgotPasswordAPI({ email: userName });
+      await forgotPasswordAPI({ email: userName });
     } catch (error: any) {
       setErrorMessage(error);
     } finally {

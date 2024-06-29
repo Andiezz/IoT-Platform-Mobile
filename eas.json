@@ -1,18 +1,38 @@
 {
   "cli": {
-    "version": ">= 10.0.3"
+    "version": ">= 0.52.0"
   },
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_BACKEND": "https://iot-platform-be.rinneyaws.cloud/"
+      }
+    },
+    "ios-simulator": {
+      "extends": "development",
+      "ios": {
+        "simulator": true
+      }
     },
     "preview": {
       "android": {
         "buildType": "apk"
+      },
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_BACKEND": "https://iot-platform-be.rinneyaws.cloud/"
       }
     },
-    "production": {}
+    "production": {
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_BACKEND": "https://iot-platform-be.rinneyaws.cloud/"
+      }
+    }
   },
   "submit": {
     "production": {}

@@ -3,7 +3,6 @@ import {
   IOverviewDaily,
   IOverviewThing,
   IThingItem,
-  ResponseDTO,
   ResponseNotification,
   ThingResponseModel,
   UserLoginInputModel,
@@ -11,7 +10,6 @@ import {
   UserResponseModel,
 } from "./types";
 import Axios from "./base";
-import { STATUS } from "@/constants/constant";
 
 //#region Authentication
 export const loginAPI = async (data: UserLoginInputModel) =>

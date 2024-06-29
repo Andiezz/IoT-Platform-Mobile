@@ -38,22 +38,36 @@ const SpeedometerChart = ({value}: ChartProps) => {
           //Decimals value allowed or not
           labels={[
             {
-              name: 'Low Risk',
-              labelColor: '#00ff6b',
-              activeBarColor: '#00ff6b',
+              name: 'Good',
+              labelColor: '#00e400',
+              activeBarColor: '#00e400',
             },
             {
-              name: 'Medium Risk',
-              labelColor: '#f4ab44',
-              activeBarColor: '#f4ab44',
+              name: 'Moderate',
+              labelColor: '#ffff00',
+              activeBarColor: '#ffff00',
             },
             {
-              name: 'High Risk',
-              labelColor: '#ff2900',
-              activeBarColor: '#ff2900',
+              name: 'Unhealthy for Sensitive Groups',
+              labelColor: '#ff7e00',
+              activeBarColor: '#ff7e00',
+            },
+            {
+              name: '	Unhealthy',
+              labelColor: '#ff0000',
+              activeBarColor: '#ff0000',
+            },
+            {
+              name: '	Very Unhealthy',
+              labelColor: '#8f3f97',
+              activeBarColor: '#8f3f97',
+            },
+            {
+              name: 'Hazardous',
+              labelColor: '#7e0023',
+              activeBarColor: '#7e0023',
             },
           ]}
-          //Labels for the different steps of Speedometer
         />
       </View>
     </SafeAreaView>

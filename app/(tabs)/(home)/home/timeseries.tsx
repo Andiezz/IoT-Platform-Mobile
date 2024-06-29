@@ -2,7 +2,7 @@ import { IOverviewDaily } from "@/api/types";
 import OverviewPointWidget from "@/components/OverviewWidget";
 import { TextTimeseries, BackgroupColor, Color } from "@/constants/constant";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, Card } from "react-native-paper";
 
 export interface IProps {

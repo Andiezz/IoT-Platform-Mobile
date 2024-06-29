@@ -9,7 +9,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { View } from "react-native-animatable";
-import { Avatar, Card, Divider, Text } from "react-native-paper";
+import { Avatar, Card, Text } from "react-native-paper";
 import RenderHTML from "react-native-render-html";
 import moment from "moment-timezone";
 

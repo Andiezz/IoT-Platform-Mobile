@@ -1,10 +1,10 @@
 import { getThingDetailAPI } from "@/api/api";
 import { IManager, IThingItem } from "@/api/types";
 import { STATUS } from "@/constants/constant";
-import { router, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Card, Text, Button, Avatar, Divider } from "react-native-paper";
+import { Card, Text, Avatar, Divider } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Device from "./device";
 

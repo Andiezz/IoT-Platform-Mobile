@@ -1,18 +1,17 @@
-import { getThingDetailAPI, updateThingDetailAPI } from "@/api/api";
+import { getThingDetailAPI, updateThingDetailAPI } from '@/api/api';
 import {
   IParameterStandardModel,
   IThingItem,
   IThingItemUpdate,
-} from "@/api/types";
-import CustomizeColorPicker from "@/components/ColorPicker";
-import ParamField from "@/components/ParamField";
-import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
-import { Card, Text, Button, TextInput } from "react-native-paper";
-import { useForm, Resolver, Controller } from "react-hook-form";
-import { View } from "react-native-animatable";
-import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+} from '@/api/types';
+import ParamField from '@/components/ParamField';
+import { router, useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { Card, Text, Button, TextInput } from 'react-native-paper';
+import { useForm, Resolver, Controller } from 'react-hook-form';
+import { View } from 'react-native-animatable';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 
 const removePropertiesFromObjects = (array: any[], properties: string[]) => {
   return array.map((obj) => {
@@ -29,7 +28,7 @@ const UpdateParam = () => {
   const [param, setParam] = useState<IParameterStandardModel>();
 
   const defaultValue = {
-    name: "",
+    name: '',
     information: undefined,
     location: undefined,
     status: undefined,
@@ -40,35 +39,35 @@ const UpdateParam = () => {
   const {
     control,
     handleSubmit,
-    formState: { defaultValues, isValid, isDirty, errors },
+    formState: { isDirty, errors },
     setValue,
     getValues,
     reset,
   } = useForm<IThingItemUpdate>({
-    mode: "all",
+    mode: 'all',
     defaultValues: defaultValue,
   });
 
   const onSubmit = async (data: any) => {
     try {
-      updateThingDetailAPI(thingId?.toString() || "", data);
+      updateThingDetailAPI(thingId?.toString() || '', data);
       router.push(`/update-thing/${thingId}`);
       Toast.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Success",
-        textBody: "Update success!",
+        title: 'Success',
+        textBody: 'Update success!',
       });
     } catch (error) {
       Toast.show({
         type: ALERT_TYPE.DANGER,
-        title: "Error",
-        textBody: "Something went wrong!",
+        title: 'Error',
+        textBody: 'Something went wrong!',
       });
     }
-  }
+  };
 
   const getThingDetail = async () => {
-    const res = await getThingDetailAPI(thingId?.toString() || "");
+    const res = await getThingDetailAPI(thingId?.toString() || '');
     setThing(res.data);
   };
 
@@ -85,19 +84,19 @@ const UpdateParam = () => {
       );
 
       const updatedDevices = removePropertiesFromObjects(thing.devices, [
-        "_id",
-        "status",
+        '_id',
+        'status',
       ]);
 
       const updatedManagers = removePropertiesFromObjects(thing.managers, [
-        "email",
-        "firstName",
-        "isActive",
-        "lastName",
-        "phoneCode",
-        "phoneNumber",
-        "role",
-        "_id",
+        'email',
+        'firstName',
+        'isActive',
+        'lastName',
+        'phoneCode',
+        'phoneNumber',
+        'role',
+        '_id',
       ]);
 
       reset({
@@ -118,13 +117,13 @@ const UpdateParam = () => {
       thing?.devices && index < thing?.devices?.length;
       index++
     ) {
-      setValue(`devices.${index}.model`, thing?.devices[index].model._id || "");
+      setValue(`devices.${index}.model`, thing?.devices[index].model._id || '');
     }
     const updatedParam =
       getValues().devices[Number(deviceIndex)].parameterStandards &&
       removePropertiesFromObjects(
         getValues().devices[Number(deviceIndex)].parameterStandards,
-        ["_id"]
+        ['_id']
       );
     setValue(`devices.${Number(deviceIndex)}.parameterStandards`, updatedParam);
   }, [isDirty]);
@@ -138,7 +137,7 @@ const UpdateParam = () => {
               <View style={styles.cardTitle}>
                 <Text
                   variant="bodyMedium"
-                  style={{ color: "gray", marginVertical: 10 }}
+                  style={{ color: 'gray', marginVertical: 10 }}
                 >
                   Informations
                 </Text>
@@ -151,8 +150,8 @@ const UpdateParam = () => {
                     deviceIndex
                   )}.parameterStandards.${Number(paramIndex)}.name`}
                   control={control}
-                  rules={{ required: "Name is required" }}
-                  render={({ field: { onChange, value = "", onBlur } }) => (
+                  rules={{ required: 'Name is required' }}
+                  render={({ field: { onChange, value = '', onBlur } }) => (
                     <View>
                       <TextInput
                         mode="outlined"
@@ -180,8 +179,8 @@ const UpdateParam = () => {
                     deviceIndex
                   )}.parameterStandards.${Number(paramIndex)}.unit`}
                   control={control}
-                  rules={{ required: "Unit is required" }}
-                  render={({ field: { onChange, value = "", onBlur } }) => (
+                  rules={{ required: 'Unit is required' }}
+                  render={({ field: { onChange, value = '', onBlur } }) => (
                     <View>
                       <TextInput
                         mode="outlined"
@@ -209,8 +208,8 @@ const UpdateParam = () => {
                     deviceIndex
                   )}.parameterStandards.${Number(paramIndex)}.weight`}
                   control={control}
-                  rules={{ required: "Weight is required" }}
-                  render={({ field: { onChange, value = "", onBlur } }) => (
+                  rules={{ required: 'Weight is required' }}
+                  render={({ field: { onChange, value = '', onBlur } }) => (
                     <View>
                       <TextInput
                         mode="outlined"
@@ -239,7 +238,7 @@ const UpdateParam = () => {
               <View style={styles.cardTitle}>
                 <Text
                   variant="bodyMedium"
-                  style={{ color: "gray", marginVertical: 10 }}
+                  style={{ color: 'gray', marginVertical: 10 }}
                 >
                   Thresholds
                 </Text>
@@ -274,31 +273,31 @@ const UpdateParam = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
-    color: "white",
+    height: '100%',
+    color: 'white',
     padding: 10,
   },
   card: {
     margin: 10,
   },
   cardContent: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     gap: 10,
   },
   paramInput: {
-    display: "flex",
-    flexWrap: "wrap",
+    display: 'flex',
+    flexWrap: 'wrap',
     gap: 10,
   },
   cardTitle: {
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   errorText: {
-    color: "red",
+    color: 'red',
     marginTop: 5,
   },
 });
