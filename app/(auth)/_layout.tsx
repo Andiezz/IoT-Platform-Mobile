@@ -1,14 +1,36 @@
-import { Redirect, Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
+import { Redirect, Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+import { STORAGE_KEYS, Storage } from '@/utility/storage';
+import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
+import { useEffect } from 'react';
 
-import { Loader } from "../../components";
-// import { useGlobalContext } from "../../context/GlobalProvider";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+const getToken = async () => {
+  const token: any = await Storage.getItem(STORAGE_KEYS.token);
+  return token;
+};
 
 const AuthLayout = () => {
-  // const { loading, isLogged } = useGlobalContext();
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isUserLoggedIn);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isUserLoggedIn
+  );
+
+  useEffect(() => {
+    getToken().then((token) => {
+      if (token?.token) {
+        return <Redirect href="/home" />;
+      }
+    }).catch((error) => {
+      console.log('error', error);
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: 'Error',
+        textBody: error,
+      });
+    });
+  }, []);
+  
   if (isAuthenticated) return <Redirect href="/home" />;
 
   return (
@@ -21,8 +43,6 @@ const AuthLayout = () => {
           }}
         />
       </Stack>
-
-      {/* <Loader isLoading={loading} /> */}
       <StatusBar backgroundColor="#161622" style="light" />
     </>
   );

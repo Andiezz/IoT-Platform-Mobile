@@ -32,18 +32,6 @@ const authSlice = createSlice({
       userId: null,
     }),
   },
-  // extraReducers(builder) {
-  //   builder.addCase(checkRememberedUserAC.fulfilled, (state, action) => ({
-  //     ...state,
-  //     isCheckingRememberedUser: false,
-  //     isUserLoggedIn: action.payload?.isUserLoggedIn,
-  //     userData: action.payload?.user,
-  //   }));
-  //   builder.addCase(getUserInfoAC.fulfilled, (state, action) => ({
-  //     ...state,
-  //     userData: action.payload.user,
-  //   }));
-  // },
 });
 
 export default authSlice.reducer;

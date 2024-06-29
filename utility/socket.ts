@@ -1,44 +1,78 @@
-import { io, Socket } from "socket.io-client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Socket, io } from 'socket.io-client';
+const URL = process.env.EXPO_PUBLIC_BACKEND || 'http://localhost:8888';
 
-const SOCKET_URL = "http://localhost:8888";
+export interface ISocketService {
+  authToken: string;
+  userId?: string;
+  // connect: () => void;
+  connect: () => void;
+  subscribeEvent: (event: string, callback: (data: unknown) => unknown) => void;
+  unScribeEvent: (event: string, callback?: (data: unknown) => unknown) => void;
+  publish(event: string, msg: unknown): void;
+  disconnect(): void;
+  dispose(): void;
+}
+export class SocketService implements ISocketService {
+  private client?: Socket<
+    { [event: string]: any },
+    { [event: string]: (...args: any[]) => void }
+  >;
+  private isConnect: boolean;
+  public authToken = '';
+  public userId?: string;
+  private mapEventListener: Map<string, Function> = new Map();
+  // private options?: Partial<ManagerOptions & SocketOptions>;
+  constructor() {
+    this.isConnect = false;
+  }
 
-class SocketService {
-  private socket: Socket | null = null;
-  connect(token: string) {
-    this.socket = io(SOCKET_URL, {
+  public connect(): void {
+    if (this.isConnect) {
+      return;
+    }
+    this.client = io(URL, {
+      autoConnect: false,
       retries: 1,
       timeout: 6000,
       auth: {
-        Authorization: token ? 'Bearer ' + token : ''
+        Authorization: this.authToken ? 'Bearer ' + this.authToken : ''
       },
+      transports: ['polling', 'websocket']
     });
-
-    this.socket.on("connect", () => {
-      console.log("Connected to socket server");
+    this.client.connect();
+    this.client.on('connect', () => {
+      console.log('Socket Client connected');
+      this.isConnect = true;
     });
-
-    this.socket.on("disconnect", () => {
-      console.log("Disconnected from socket server");
+    this.client.on('disconnect', (err) => {
+      console.log('Socket Client disconnected: ', err);
+      this.isConnect = false;
     });
   }
 
-  disconnect() {
-    if (this.socket) {
-      this.socket.disconnect();
-    }
+  public subscribeEvent(event: string, callback: (data: unknown) => unknown) {
+    this.client?.on(event, callback);
+    this.mapEventListener.set(event, callback);
   }
 
-  sendMessage(event: string, data: any) {
-    if (this.socket) {
-      this.socket.emit(event, data);
-    }
+  public unScribeEvent(event: string) {
+    if (this.client) this.client.off(event, this.mapEventListener.get(event));
+    this.mapEventListener.delete(event);
   }
 
-  onMessage(event: string, callback: (data: any) => void) {
-    if (this.socket) {
-      this.socket.on(event, callback);
-    }
+  public publish(event: string, msg: unknown): void {
+    if (this.client) this.client.emit(event, msg);
+  }
+
+  public disconnect(): void {
+    if (this.client) this.client.disconnect();
+  }
+  public dispose(): void {
+    this.mapEventListener.forEach((functionRef, event) => {
+      this.client?.off(event, functionRef);
+    });
+    this.mapEventListener = new Map();
+    this.client?.disconnect();
   }
 }
-
-export default new SocketService();

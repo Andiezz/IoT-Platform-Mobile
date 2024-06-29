@@ -5,8 +5,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 // config
-import {dispatch} from '@/store/store';
-import {logoutAC} from '@/store/slices/auth';
+import { dispatch } from '@/store/store';
+import { logoutAC } from '@/store/slices/auth';
 import { STORAGE_KEYS, Storage } from '@/utility/storage';
 
 // ----------------------------------------------------------------------
@@ -21,9 +21,11 @@ declare module 'axios' {
   }
 }
 
-const Axios = axios.create({baseURL: "https://iot-platform-be.rinneyaws.cloud/"});
+const baseURL = process.env.EXPO_PUBLIC_BACKEND || 'http://localhost:8888';
 
-const refreshTokenUrl = `https://iot-platform-be.rinneyaws.cloud/api/auth/refresh-token`;
+const Axios = axios.create({ baseURL: baseURL });
+
+const refreshTokenUrl = `${baseURL}api/auth/refresh-token`;
 
 const defaultConfig: AxiosRequestConfig = {
   __auth: true,
@@ -74,7 +76,7 @@ const handleRefreshToken = async () => {
 };
 
 const handleError401 = async (error: AxiosError) => {
-  refreshTokenRequest = refreshTokenRequest || await handleRefreshToken();
+  refreshTokenRequest = refreshTokenRequest || (await handleRefreshToken());
   const token = await refreshTokenRequest;
   if (error.config) {
     setHeader(error.config, 'Authorization', `Bearer ${token.token}`);
@@ -83,7 +85,7 @@ const handleError401 = async (error: AxiosError) => {
 };
 
 const onRequest = async (axiosConfig: InternalAxiosRequestConfig) => {
-  let config: InternalAxiosRequestConfig = {...defaultConfig, ...axiosConfig};
+  let config: InternalAxiosRequestConfig = { ...defaultConfig, ...axiosConfig };
   if (config.__auth && !config?.headers?.Authorization) {
     const token: any = await Storage.getItem(STORAGE_KEYS.token);
     if (token?.token) {
@@ -103,7 +105,7 @@ const onRequest = async (axiosConfig: InternalAxiosRequestConfig) => {
     setHeader(
       config,
       'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept',
+      'Origin, X-Requested-With, Content-Type, Accept'
     );
     setHeader(config, 'Access-Control-Allow-Origin', '*');
   }
@@ -138,7 +140,7 @@ const onResponseError = (error: AxiosError) => {
     apiError.config = error.config;
   }
   if (error.response) {
-    const {data, status, ...rest}: dataType = error.response;
+    const { data, status, ...rest }: dataType = error.response;
     if (status === 401) {
       return handleError401(error);
     }
@@ -156,7 +158,7 @@ const onResponseError = (error: AxiosError) => {
         ...result,
         [item.code]: item.value,
       }),
-      {},
+      {}
     );
   }
   return Promise.reject(apiError);
@@ -166,4 +168,4 @@ Axios.interceptors.request.use(onRequest, onRequestError);
 Axios.interceptors.response.use(onResponse, onResponseError);
 
 export default Axios;
-export {handleRefreshToken};
+export { handleRefreshToken };

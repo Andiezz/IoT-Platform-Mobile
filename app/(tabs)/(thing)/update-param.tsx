@@ -12,6 +12,7 @@ import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import { Card, Text, Button, TextInput } from "react-native-paper";
 import { useForm, Resolver, Controller } from "react-hook-form";
 import { View } from "react-native-animatable";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 const removePropertiesFromObjects = (array: any[], properties: string[]) => {
   return array.map((obj) => {
@@ -48,9 +49,23 @@ const UpdateParam = () => {
     defaultValues: defaultValue,
   });
 
-  const onSubmit = (data: any) => {
-    updateThingDetailAPI(thingId?.toString() || "", data);
-  };
+  const onSubmit = async (data: any) => {
+    try {
+      updateThingDetailAPI(thingId?.toString() || "", data);
+      router.push(`/update-thing/${thingId}`);
+      Toast.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: "Success",
+        textBody: "Update success!",
+      });
+    } catch (error) {
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Error",
+        textBody: "Something went wrong!",
+      });
+    }
+  }
 
   const getThingDetail = async () => {
     const res = await getThingDetailAPI(thingId?.toString() || "");
@@ -287,4 +302,5 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 });
+
 export default UpdateParam;

@@ -42,7 +42,7 @@ const Notification = () => {
                 </View>
                 <View style={styles.content}>
                   <RenderHTML
-                    contentWidth={width-20}
+                    contentWidth={width-30}
                     source={{ html: item.content }}
                     baseStyle={styles.htmlContent}
                   />
@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   card: {
-    margin: 10,
+    marginVertical: 10,
+    marginHorizontal: 5
   },
   notificationContainer: {
     display: "flex",
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   htmlContent: {
     flexShrink: 1, // Allowing text to wrap within the container
     flexWrap: "wrap",
-    width: widthContent - 100,
+    width: widthContent - 120,
   },
   content: {
     display: "flex",

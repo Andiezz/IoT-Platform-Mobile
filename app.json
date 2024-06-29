@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "IntellAir",
-    "slug": "intellair",
+    "slug": "iot-platform-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,16 +20,38 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.jsm.sora"
+      "package": "com.jsm.sora",
+      "compileSdkVersion": 34,
+      "targetSdkVersion": 34,
+      "buildToolsVersion": "34.0.0"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-font"],
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#ffffff"
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "19e00bf4-294d-4a49-9d77-155e69e378f0"
+      },
+      "router": {
+        "origin": false
+      }
+    },
+    "owner": "andiezz"
   }
 }
