@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.thesis.intellair"
+      "package": "com.andiezz.iotplatformmobile"
     },
     "notification": {
       "icon": "./assets/icon.png",
