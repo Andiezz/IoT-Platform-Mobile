@@ -26,12 +26,6 @@
       },
       "package": "com.andiezz.iotplatformmobile"
     },
-    "notification": {
-      "icon": "./assets/icon.png",
-      "iosDisplayInForeground": true,
-      "androidMode": "default",
-      "androidCollapsedTitle": "Updates from Colab.notes"
-    },
     "web": {
       "bundler": "metro",
       "output": "static",
@@ -43,9 +37,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/icon.png",
-          "color": "#ffffff",
-          "sound": "default"
+          "icon": "./assets/icon.png"
         }
       ]
     ],
