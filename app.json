@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#102044"
       },
-      "package": "com.andiezz.iotplatformmobile"
+      "package": "com.andiezz.iotplatformmobile",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",

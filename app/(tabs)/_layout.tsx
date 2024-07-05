@@ -15,6 +15,8 @@ import { useState, useEffect, useRef } from 'react';
 import { ALERT_TYPE, Toast } from 'react-native-alert-notification';
 import * as Notifications from 'expo-notifications';
 import { decode } from 'html-entities';
+import Constants from 'expo-constants';
+import * as Device from 'expo-device';
 
 interface IconProps {
   icon: any;
@@ -95,42 +97,41 @@ async function registerForPushNotificationsAsync() {
     });
   }
 
-  // if (Device.isDevice) {
-  const { status: existingStatus } = await Notifications.getPermissionsAsync();
-  let finalStatus = existingStatus;
-  if (existingStatus !== 'granted') {
-    const { status } = await Notifications.requestPermissionsAsync();
-    finalStatus = status;
+  if (Device.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      handleRegistrationError(
+        'Permission not granted to get push token for push notification!'
+      );
+      return;
+    }
+    const projectId =
+      Constants?.expoConfig?.extra?.eas?.projectId ??
+      Constants?.easConfig?.projectId ??
+      '19e00bf4-294d-4a49-9d77-155e69e378f0';
+    if (!projectId) {
+      handleRegistrationError('Project ID not found');
+    }
+    try {
+      const pushTokenString = (
+        await Notifications.getExpoPushTokenAsync({
+          projectId,
+        })
+      ).data;
+      console.log(pushTokenString);
+      return pushTokenString;
+    } catch (e) {
+      handleRegistrationError(`${e}`);
+    }
+  } else {
+    handleRegistrationError('Must use physical device for push notifications');
   }
-  if (finalStatus !== 'granted') {
-    handleRegistrationError(
-      'Permission not granted to get push token for push notification!'
-    );
-    return;
-  }
-  // const projectId =
-  //   Constants?.expoConfig?.extra?.eas?.projectId ??
-  //   Constants?.easConfig?.projectId;
-  // if (!projectId) {
-  //   handleRegistrationError('Project ID not found');
-  // }
-  try {
-    const pushTokenString = (
-      await Notifications
-        .getExpoPushTokenAsync
-        //   {
-        //   projectId,
-        // }
-        ()
-    ).data;
-    console.log(pushTokenString);
-    return pushTokenString;
-  } catch (e) {
-    handleRegistrationError(`${e}`);
-  }
-  // } else {
-  //   handleRegistrationError('Must use physical device for push notifications');
-  // }
 }
 
 function htmlToText(htmlString: string) {
