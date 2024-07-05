@@ -49,5 +49,6 @@
     "hooks/useThemeColor.js",
     "lib/appwrite.js",
     "lib/useAppwrite.js",
+    "google-services.json"
   ]
 }

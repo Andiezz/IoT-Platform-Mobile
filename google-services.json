@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1072226496145",
+    "project_id": "iot-platform-mobile",
+    "storage_bucket": "iot-platform-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072226496145:android:e2865532dfa6e936381930",
+        "android_client_info": {
+          "package_name": "com.andiezz.iotplatformmobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkmy6TDKgznr9r41MjawUwFR6HiBCGX7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
