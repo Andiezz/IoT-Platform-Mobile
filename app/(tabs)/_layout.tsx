@@ -65,10 +65,9 @@ async function sendPushNotification(
 ) {
   const message = {
     to: expoPushToken,
-    sound: 'default',
     title: title,
-    body: body,
-    data: data,
+    body: data,
+    sound: 'default',
   };
 
   await fetch('https://exp.host/--/api/v2/push/send', {
@@ -79,7 +78,9 @@ async function sendPushNotification(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(message),
-  });
+  })
+    .then((response) => console.log('Response: ', response))
+    .catch((error) => console.log('Error: ', error));
 }
 
 function handleRegistrationError(errorMessage: string) {
@@ -144,6 +145,24 @@ function htmlToText(htmlString: string) {
   return plainText;
 }
 
+function getSubstancesStatus(input: string) {
+  // Remove all numbers from the input string
+  const cleanedInput = input.replace(/\d+(\.\d+)?/g, '');
+
+  // Regular expression to match the substance and status pattern
+  const regex = /(\w+ - \w+):/g;
+  let match;
+  const substancesStatus = [];
+
+  // Loop through all matches
+  while ((match = regex.exec(cleanedInput)) !== null) {
+    substancesStatus.push(match[1]);
+  }
+
+  // Convert the array to a string with a specified separator
+  return substancesStatus.join(', ');
+}
+
 const TabLayout = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isUserLoggedIn
@@ -167,11 +186,6 @@ const TabLayout = () => {
 
   useEffect(() => {
     if (message) {
-      // Toast.show({
-      //   type: ALERT_TYPE.WARNING,
-      //   title: 'Warning',
-      //   textBody: 'Parameters in warning threshold',
-      // });
       sendPushNotification(
         expoPushToken,
         'Warning',
@@ -200,7 +214,9 @@ const TabLayout = () => {
         `/notification/${user.id}`,
         async (messageData: any) => {
           console.log('messageData', messageData);
-          const message = htmlToText(messageData?.data?.content);
+          const message = getSubstancesStatus(
+            htmlToText(messageData?.data?.content)
+          );
           console.log('message', message);
           setMessage(message);
         }
